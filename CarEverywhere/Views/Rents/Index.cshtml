@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CarEverywhere.Models.Rent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Rents</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success" role="button"><i class="fa-solid fa-circle-plus m-2"></i> Register Car Rental</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Car)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fine)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fine)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="m-2">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a asp-action="Details" asp-route-id="@item.Id" class="m-2">
+                    <i class="fa-solid fa-rectangle-list"></i>
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="m-2">
+                    <i class="fa-solid fa-trash-can"></i>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

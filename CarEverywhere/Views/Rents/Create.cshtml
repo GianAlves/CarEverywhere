@@ -1,0 +1,61 @@
+﻿@model CarEverywhere.Models.ViewModel.RentFormViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Rent</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Rent.CarId" class="control-label"></label>
+                <select asp-for="Rent.CarId" asp-items='@new SelectList(Model.Cars, "Id", "Model")' class="form-select"></select>
+                <span asp-validation-for="Rent.CarId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rent.ClientId" class="control-label"></label>
+                <select asp-for="Rent.ClientId" asp-items='@new SelectList(Model.Clients, "Id", "Name")' class="form-select"></select>
+                <span asp-validation-for="Rent.ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rent.LeaseDate" class="control-label"></label>
+                <input asp-for="Rent.LeaseDate" class="form-control" />
+                <span asp-validation-for="Rent.LeaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rent.ReturnDate" class="control-label"></label>
+                <input asp-for="Rent.ReturnDate" class="form-control" />
+                <span asp-validation-for="Rent.ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rent.Total" class="control-label"></label>
+                <input asp-for="Rent.Total" class="form-control" />
+                <span asp-validation-for="Rent.Total" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rent.Fine" class="control-label"></label>
+                <input asp-for="Rent.Fine" class="form-control" />
+                <span asp-validation-for="Rent.Fine" class="text-danger"></span>
+            </div>
+            <div class="row mt-3 mb-2">
+                <div class="col-6">
+                    <a asp-action="Index" class="btn btn-secondary" role="button">Back to List</a>
+                </div>
+                <div class="col-6 text-end">
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
