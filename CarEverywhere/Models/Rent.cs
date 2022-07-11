@@ -3,14 +3,20 @@
 namespace CarEverywhere.Models {
     public class Rent {
         public int Id { get; set; }
-        /* Adding the id field of the car to be rented. */
+        // Car:
+        // Adding the id field of the car to be rented.
         [Display(Name = "Car")]
         public int CarId { get; set; }
         public Car Car { get; set; }
-        /* Adding the id field of the customer who will rent. */
+        /* - - - - - */
+
+        // Client:
+        // Adding the id field of the customer who will rent.
         [Display(Name = "Client")]
         public int ClientId { get; set; }
         public Client Client { get; set; }
+        /* - - - - - */
+
         [Display(Name = "Lease Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd:MM:yyyy}")]

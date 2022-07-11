@@ -12,11 +12,19 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- 
+                Select box, to be able to choose the car that will be rented,
+                passing the name in the visualization and the id as value.
+            -->
             <div class="form-group">
                 <label asp-for="Rent.CarId" class="control-label"></label>
                 <select asp-for="Rent.CarId" asp-items='@new SelectList(Model.Cars, "Id", "Model")' class="form-select"></select>
                 <span asp-validation-for="Rent.CarId" class="text-danger"></span>
             </div>
+            <!-- 
+                Select box, to be able to choose the client who will rent the car,
+                passing the name in the visualization and the id as value.
+            -->
             <div class="form-group">
                 <label asp-for="Rent.ClientId" class="control-label"></label>
                 <select asp-for="Rent.ClientId" asp-items='@new SelectList(Model.Clients, "Id", "Name")' class="form-select"></select>

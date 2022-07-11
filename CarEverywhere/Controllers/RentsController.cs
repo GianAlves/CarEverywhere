@@ -21,23 +21,22 @@ namespace CarEverywhere.Controllers
         }
 
         // GET: Rents
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-              return _context.Rent != null ? 
-                          View(await _context.Rent.ToListAsync()) :
-                          Problem("Entity set 'CarEverywhereContext.Rent'  is null.");
+            // Create a list of rentals, including car and client, to show in index.
+            var list = _context.Rent.Include(r => r.Car).Include(r => r.Client).ToList();
+            return View(list);
         }
 
         // GET: Rents/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null || _context.Rent == null)
             {
                 return NotFound();
             }
-
-            var rent = await _context.Rent
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // Create a rental item, including car and client, to show in details.
+            var rent = _context.Rent.Include(r => r.Car).Include(r => r.Client).FirstOrDefault(r => r.Id == id);
             if (rent == null)
             {
                 return NotFound();
@@ -49,6 +48,11 @@ namespace CarEverywhere.Controllers
         // GET: Rents/Create
         public IActionResult Create()
         {
+            /*
+                Creates a viewModel object that gathers rental data, car data, and client data.
+                Having this data, it is possible to create a select box of items,
+                both for cars and clients, so that the user can choose when registering rentals.
+             */
             var viewModel = new RentFormViewModel();
             viewModel.Cars = _context.Car.ToList();
             viewModel.Clients = _context.Client.ToList();
@@ -69,19 +73,30 @@ namespace CarEverywhere.Controllers
         }
 
         // GET: Rents/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+
+        public IActionResult Edit(int? id)
         {
             if (id == null || _context.Rent == null)
             {
                 return NotFound();
             }
 
-            var rent = await _context.Rent.FindAsync(id);
+            var rent = _context.Rent.Include(r => r.Car).Include(r => r.Client).FirstOrDefault(r => r.Id == id);
             if (rent == null)
             {
                 return NotFound();
             }
-            return View(rent);
+
+            /*
+                Creates a viewModel object that gathers rental data, car data, and client data.
+                Having this data, it is possible to fill them in the selection boxes,
+                being able to be edited if the user wants.
+             */
+            var viewModel = new RentFormViewModel();
+            viewModel.Cars = _context.Car.ToList();
+            viewModel.Clients = _context.Client.ToList();
+            viewModel.Rent = rent;
+            return View(viewModel);
         }
 
         // POST: Rents/Edit/5
@@ -89,34 +104,11 @@ namespace CarEverywhere.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LeaseDate,ReturnDate,Total,Fine")] Rent rent)
+        public IActionResult Edit(Rent rent)
         {
-            if (id != rent.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(rent);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RentExists(rent.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(rent);
+            _context.Rent.Update(rent);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Rents/Delete/5
@@ -127,8 +119,8 @@ namespace CarEverywhere.Controllers
                 return NotFound();
             }
 
-            var rent = await _context.Rent
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // Create a rental item, including car and client, to show on the delete page.
+            var rent = _context.Rent.Include(r => r.Car).Include(r => r.Client).FirstOrDefault(r => r.Id == id);
             if (rent == null)
             {
                 return NotFound();

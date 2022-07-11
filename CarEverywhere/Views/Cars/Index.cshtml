@@ -30,7 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Year)
             </th>
-            <th></th>
+            <th>Options</th>
         </tr>
     </thead>
     <tbody>
@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.LicensePlate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DailyValue)
+                $@Html.DisplayFor(modelItem => item.DailyValue)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Brand)
